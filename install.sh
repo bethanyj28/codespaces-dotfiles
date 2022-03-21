@@ -42,7 +42,7 @@ unzip appimage.zip
 sudo chmod u+x nvim.appimage
 sudo mv nvim.appimage /usr/local/bin/nvim
 
-ln -s $(pwd)/tmux.conf $HOME/.tmux.conf
+# ln -s $(pwd)/tmux.conf $HOME/.tmux.conf
 ln -s $(pwd)/vimrc $HOME/.vimrc
 ln -s $(pwd)/vim $HOME/.vim
 ln -s $(pwd)/emacs $HOME/.emacs
