@@ -51,3 +51,7 @@ vim -Es -u $HOME/.vimrc -c "PlugInstall | qa"
 
 sudo chsh -s "$(which zsh)" "$(whoami)"
 
+while apt-get -y update 2>&1 | grep -q "Could not get lock" ; do
+  echo "Waiting for other apt-get instances to exit"
+  sleep 1
+done
