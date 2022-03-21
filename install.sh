@@ -4,6 +4,16 @@ exec > >(tee -i $HOME/dotfiles_install.log)
 exec 2>&1
 set -x
 
+# When setting up a codespace, we might run into an apt race condition
+# We need to make sure a different process doesn't have a lock before proceeding
+# When it does, the error will be one of 2:
+#   Could not get lock /var/lib/apt/lists/lock
+#   Could not get lock /var/lib/dpkg/lock-frontend
+while apt-get -y update 2>&1 | grep -q "Could not get lock" ; do
+  echo "Waiting for other apt-get instances to exit"
+  sleep 1
+done
+
 # Install curl, tar, git, other dependencies if missing
 PACKAGES_NEEDED="\
     silversearcher-ag \
@@ -19,16 +29,6 @@ if ! dpkg -s ${PACKAGES_NEEDED} > /dev/null 2>&1; then
     fi
     sudo apt-get -y -q install ${PACKAGES_NEEDED}
 fi
-
-# When setting up a codespace, we might run into an apt race condition
-# We need to make sure a different process doesn't have a lock before proceeding
-# When it does, the error will be one of 2:
-#   Could not get lock /var/lib/apt/lists/lock
-#   Could not get lock /var/lib/dpkg/lock-frontend
-while apt-get -y update 2>&1 | grep -q "Could not get lock" ; do
-  echo "Waiting for other apt-get instances to exit"
-  sleep 1
-done
 
 # sudo apt-get --assume-yes install silversearcher-ag bat fuse
 
