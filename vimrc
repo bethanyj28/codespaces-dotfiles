@@ -1,17 +1,16 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-set guifont=Essential\ PragmataPro:h13
 set linespace=5
 set number
 set relativenumber
 set completeopt-=preview
 set mouse+=a
 set autoread
-if &term =~ '^screen'
-        " tmux knows the extended mouse mode
-        set ttymouse=xterm2
-endif
+" if &term =~ '^screen'
+"         " tmux knows the extended mouse mode
+"         set ttymouse=xterm2
+" endif
 set timeoutlen=1000 ttimeoutlen=0
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -61,7 +60,6 @@ Plug 'mdempsky/gocode'
 Plug 'fatih/molokai'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'OmniSharp/omnisharp-vim'
