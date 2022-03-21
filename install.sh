@@ -20,6 +20,16 @@ if ! dpkg -s ${PACKAGES_NEEDED} > /dev/null 2>&1; then
     sudo apt-get -y -q install ${PACKAGES_NEEDED}
 fi
 
+# When setting up a codespace, we might run into an apt race condition
+# We need to make sure a different process doesn't have a lock before proceeding
+# When it does, the error will be one of 2:
+#   Could not get lock /var/lib/apt/lists/lock
+#   Could not get lock /var/lib/dpkg/lock-frontend
+while apt-get -y update 2>&1 | grep -q "Could not get lock" ; do
+  echo "Waiting for other apt-get instances to exit"
+  sleep 1
+done
+
 # sudo apt-get --assume-yes install silversearcher-ag bat fuse
 
 # install latest neovim
@@ -51,7 +61,4 @@ vim -Es -u $HOME/.vimrc -c "PlugInstall | qa"
 
 sudo chsh -s "$(which zsh)" "$(whoami)"
 
-while apt-get -y update 2>&1 | grep -q "Could not get lock" ; do
-  echo "Waiting for other apt-get instances to exit"
-  sleep 1
-done
+

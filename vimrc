@@ -91,7 +91,7 @@ filetype plugin indent on    " required
 set cursorline
 let g:codedark_conservative = 1
 
-colorscheme vividchalk
+" colorscheme vividchalk
 
 " colorscheme paper 
 " let g:airline_theme='sol'
@@ -149,7 +149,7 @@ colorscheme vividchalk
 
 " let g:gruvbox_contrast_light="hard"
 " let g:gruvbox_contrast_dark='hard'
-" colorscheme gruvbox
+colorscheme gruvbox
 
 inoremap jk <Esc>
 
