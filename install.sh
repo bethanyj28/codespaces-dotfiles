@@ -26,7 +26,6 @@ PACKAGES_NEEDED="\
 
 if ! dpkg -s ${PACKAGES_NEEDED} > /dev/null 2>&1; then
     if [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
-        sudo apt-get update
         apt_with_lock_protection "update"
     fi
     apt_with_lock_protection "-q install ${PACKAGES_NEEDED}"
