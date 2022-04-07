@@ -4,17 +4,6 @@ exec > >(tee -i $HOME/dotfiles_install.log)
 exec 2>&1
 set -x
 
-# When setting up a codespace, we might run into an apt race condition
-# We need to make sure a different process doesn't have a lock before proceeding
-# When it does, the error will be one of 2:
-#   Could not get lock /var/lib/apt/lists/lock
-#   Could not get lock /var/lib/dpkg/lock-frontend
-function apt_with_lock_protection() {
-  while sudo apt-get -o DPkg::Lock::Timeout=3 -y $1 2>&1 | tee -a ~/apt_log | grep -q "Could not get lock" ; do
-    echo "Waiting for other apt-get instances to exit"
-    sleep 1
-  done
-}
 # Install curl, tar, git, other dependencies if missing
 PACKAGES_NEEDED="\
     silversearcher-ag \
@@ -26,11 +15,10 @@ PACKAGES_NEEDED="\
 
 if ! dpkg -s ${PACKAGES_NEEDED} > /dev/null 2>&1; then
     if [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
-        apt_with_lock_protection "update"
+        sudo apt-get update
     fi
-    apt_with_lock_protection "-q install ${PACKAGES_NEEDED}"
+    sudo apt-get -y -q install ${PACKAGES_NEEDED}
 fi
-
 # sudo apt-get --assume-yes install silversearcher-ag bat fuse
 
 # install latest neovim
