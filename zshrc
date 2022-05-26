@@ -110,3 +110,9 @@ alias main='git checkout main && git pull'
 alias gco='git checkout'
 alias nb='git checkout -b'
 alias yeet='git stash'
+
+# Go exports
+export GOPROXY=https://nobody:${GOPROXY_PAT}@goproxy.githubapp.com/mod,https://proxy.golang.org/,direct
+export GOPRIVATE=
+export GONOPROXY=
+export GONOSUMDB='github.com/github/*'
