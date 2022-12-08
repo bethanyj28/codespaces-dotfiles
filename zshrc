@@ -110,9 +110,11 @@ alias main='git checkout main && git pull'
 alias gco='git checkout'
 alias nb='git checkout -b'
 alias yeet='git stash'
+alias ark='kubectl -n actions-results'
+alias start-actions='/workspaces/github/script/actions/start-actions'
 
 # Go exports
-export GOPROXY=https://nobody:${GOPROXY_PAT}@goproxy.githubapp.com/mod,https://proxy.golang.org/,direct
+export GOPROXY=https://nobody:${GITHUB_TOKEN}@goproxy.githubapp.com/mod,https://proxy.golang.org/,direct
 export GOPRIVATE=
 export GONOPROXY=
 export GONOSUMDB='github.com/github/*'
